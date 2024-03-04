@@ -14,42 +14,29 @@ import Fallback from "../components/Fallback";
 console.log(Date.now().toString());
 
 const TodoScreen = () => {
-  // Init local states
   const [todo, setTodo] = useState("");
   const [todoList, setTodoList] = useState([]);
   const [editedTodo, setEditedTodo] = useState(null);
 
-  // Handle Add Todo
   const handleAddTodo = () => {
-    // sturtcure of a single todo item
-    // {
-    //  id:
-    //  title:
-    // }
-
     if (todo === "") {
-      return; // early return
+      return;
     }
 
     setTodoList([...todoList, { id: Date.now().toString(), title: todo }]);
     setTodo("");
   };
 
-  // Handle Delete
   const handleDeleteTodo = (id) => {
     const updatedTodoList = todoList.filter((todo) => todo.id !== id);
 
     setTodoList(updatedTodoList);
   };
 
-  // Handle Edit todo
-
   const handleEditTodo = (todo) => {
     setEditedTodo(todo);
     setTodo(todo.title);
   };
-
-  // Handle Update
 
   const handleUpdateTodo = () => {
     const updatedTodos = todoList.map((item) => {
@@ -64,7 +51,6 @@ const TodoScreen = () => {
     setTodo("");
   };
 
-  // Render todo
   const renderTodos = ({ item, index }) => {
     const handleCompleteTodo = () => {
       const updatedTodos = todoList.map((todo) => {
@@ -78,7 +64,7 @@ const TodoScreen = () => {
     return (
       <View
         style={{
-          backgroundColor: item.completed ? "#90ee90" : "#1e90ff", // Change background color based on completion status
+          backgroundColor: item.completed ? "#90ee90" : "#1e90ff",
           borderRadius: 6,
           paddingHorizontal: 6,
           paddingVertical: 8,
@@ -97,15 +83,12 @@ const TodoScreen = () => {
             fontSize: 20,
             fontWeight: "800",
             flex: 1,
-            textDecorationLine: item.completed ? "line-through" : "none", // Add strikethrough if completed
+            textDecorationLine: item.completed ? "line-through" : "none",
           }}
         >
           {item.title}
         </Text>
 
-        {/* Complete Button */}
-
-        {/* Change button label based on completion status */}
         <IconButton
           icon={
             item.completed
@@ -117,7 +100,6 @@ const TodoScreen = () => {
           onPress={handleCompleteTodo}
         />
 
-        {/* Edit and Delete Buttons */}
         <IconButton
           icon="pencil"
           iconColor="#fff"
@@ -185,8 +167,6 @@ const TodoScreen = () => {
           </Text>
         </TouchableOpacity>
       )}
-
-      {/* Render todo list */}
 
       <FlatList data={todoList} renderItem={renderTodos} />
 
