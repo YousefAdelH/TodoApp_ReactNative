@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
 import React, { useState } from "react";
 import { IconButton } from "react-native-paper";
-import Fallback from "./fallback";
+import Fallback from "../components/Fallback";
 
 console.log(Date.now().toString());
 
@@ -65,10 +66,19 @@ const TodoScreen = () => {
 
   // Render todo
   const renderTodos = ({ item, index }) => {
+    const handleCompleteTodo = () => {
+      const updatedTodos = todoList.map((todo) => {
+        if (todo.id === item.id) {
+          return { ...todo, completed: !todo.completed };
+        }
+        return todo;
+      });
+      setTodoList(updatedTodos);
+    };
     return (
       <View
         style={{
-          backgroundColor: "#1e90ff",
+          backgroundColor: item.completed ? "#90ee90" : "#1e90ff", // Change background color based on completion status
           borderRadius: 6,
           paddingHorizontal: 6,
           paddingVertical: 8,
@@ -79,15 +89,35 @@ const TodoScreen = () => {
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.8,
           shadowRadius: 3,
-          // elevation: for android
         }}
       >
         <Text
-          style={{ color: "#fff", fontSize: 20, fontWeight: "800", flex: 1 }}
+          style={{
+            color: "#fff",
+            fontSize: 20,
+            fontWeight: "800",
+            flex: 1,
+            textDecorationLine: item.completed ? "line-through" : "none", // Add strikethrough if completed
+          }}
         >
           {item.title}
         </Text>
 
+        {/* Complete Button */}
+
+        {/* Change button label based on completion status */}
+        <IconButton
+          icon={
+            item.completed
+              ? "checkbox-marked-circle"
+              : "checkbox-blank-circle-outline"
+          }
+          color="#fff"
+          size={24}
+          onPress={handleCompleteTodo}
+        />
+
+        {/* Edit and Delete Buttons */}
         <IconButton
           icon="pencil"
           iconColor="#fff"
